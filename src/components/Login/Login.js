@@ -66,7 +66,7 @@ function Login() {
     };
 
     try {
-      await axios.post('http://localhost:5000/api/auth/login', loginData, {
+      await axios.post('https://backend-production-6241.up.railway.app/api/auth/login', loginData, {
         withCredentials: true,
       });
       alert('Successfully logged in');

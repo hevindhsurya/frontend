@@ -125,7 +125,7 @@ function Register() {
 
 
     try {
-      await axios.post('http://localhost:5000/api/auth/register', registerData);
+      await axios.post('https://backend-production-6241.up.railway.app/api/auth/register', registerData);
       alert('Successfully registered');
       // Clear form on success
       setName('');
