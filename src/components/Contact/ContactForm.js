@@ -24,7 +24,6 @@ function ContactForm() {
     const nameRegex = /^[a-zA-Z0-9_]{3,16}$/;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const phoneRegex = /^$|^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/;
-    const messageRegex = /^.{150}$/;
 
     const handleNameBlur = () => {
     if (!name.trim()) {
@@ -60,11 +59,6 @@ function ContactForm() {
   const handleMessageBlur = () => {
     if (!message.trim()) {
       setErrors((prev) => ({ ...prev, message: '*Required' }));
-    } else if (!messageRegex.test(name)) {
-      setErrors((prev) => ({
-        ...prev,
-        message: '*Maximum of 150 characters',
-      }));
     } else {
       setErrors((prev) => ({ ...prev, message: '' }));
     }
@@ -108,9 +102,7 @@ function ContactForm() {
 
     if (!trimmedMessage) {
       formErrors.message = '*Required';
-    } else if (!messageRegex.test(trimmedMessage)) {
-      formErrors.message = '*Maximum of 150 characters';
-    }
+    } 
 
     setErrors(formErrors);
 
@@ -220,6 +212,7 @@ function ContactForm() {
               id="message" 
               type="text" 
               rows="4" cols="50" 
+              maxLength="150"
               placeholder="Type your message here..." 
               value={message}
               onBlur={handleMessageBlur}
