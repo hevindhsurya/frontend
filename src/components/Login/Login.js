@@ -94,7 +94,7 @@ function Login() {
           {/* Username or Email field */}
           <div>
             <label>
-              <i className="fas fa-user myIcon"></i>
+              <i className="far fa-user myIcon"></i>
             </label>
             <input
               className="input"
@@ -120,7 +120,7 @@ function Login() {
             />
             {error.password && <p className="error">{error.password}</p>}
             <i
-              className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'} myIcon`}
+              className={`far ${showPassword ? 'fa-eye-slash' : 'fa-eye'} myIcon`}
               id="eye"
               onClick={() => setShowPassword((prev) => !prev)}
               style={{ cursor: 'pointer' }}

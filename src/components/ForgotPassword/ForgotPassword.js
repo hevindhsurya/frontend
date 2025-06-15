@@ -1,6 +1,7 @@
 // src/pages/ForgotPassword.js
 import { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -24,6 +25,9 @@ const ForgotPassword = () => {
         </div>
       </form>
       {token && <p>Mock Reset Token: {token}</p>}
+      <div className="adiv">
+        <Link to="/login" className="a">Back</Link>
+      </div>
       </form>
     </div>
   );

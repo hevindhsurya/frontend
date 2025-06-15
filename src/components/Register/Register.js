@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import ReCAPTCHA from 'react-google-recaptcha';
+import '../../formstyle/formstyle.css';
 
-import styles from '../../formstyle/formstyle.css';
+const SITE_KEY = '6LeEgWErAAAAADwWwELGP10pL4d_HRYmkK1TCAAG';
 
 function Register() {
   const [name, setName] = useState('');
@@ -14,6 +16,13 @@ function Register() {
   const [error, setErrors] = useState({});
 
   const [showPassword, setShowPassword] = useState(false);
+
+  const [captchaValue, setCaptchaValue] = useState(null);
+
+  const handleCaptchaChange = (value) => {
+    console.log("Captcha value:", value);
+    setCaptchaValue(value);
+  };
 
   const nameRegex = /^[a-zA-Z0-9_]{3,16}$/;
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -76,6 +85,11 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!captchaValue) {
+      alert('Please verify that you are not a robot');
+      return;
+    }
+
     let formErrors = {};
 
     // Validation checks
@@ -121,6 +135,7 @@ function Register() {
       email: trimmedEmail,
       password: trimmedPassword,
       role,
+      recaptchaToken: captchaValue
 };
 
 
@@ -152,7 +167,7 @@ function Register() {
           {/* Name */}
           <div>
             <label>
-              <i className='fas fa-user myIcon'></i>
+              <i className='far fa-user myIcon'></i>
             </label>
             <input
               className='input'
@@ -181,7 +196,7 @@ function Register() {
 
           {/* Email */}
           <div>
-            <i className='fas fa-envelope myIcon'></i>
+            <i className='far fa-envelope myIcon'></i>
             <input
               className='input'
               type="text"
@@ -229,12 +244,20 @@ function Register() {
             />
             {error.password && <p className='error'>{error.password}</p>}
             <i
-              className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'} myIcon`}
+              className={`far ${showPassword ? 'fa-eye-slash' : 'fa-eye'} myIcon`}
               id='eye'
               onClick={() => setShowPassword((prev) => !prev)}
               style={{ cursor: 'pointer' }}
             ></i>
           </div>
+
+          <ReCAPTCHA 
+            className='recaptcha-container'
+            theme='dark'
+            sitekey={SITE_KEY}
+            onChange={handleCaptchaChange}
+            onExpired={() => setCaptchaValue('')}
+          />
 
           <div className='subdiv'>
             <button type="submit">Register</button>
