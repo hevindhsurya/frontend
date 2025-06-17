@@ -194,13 +194,10 @@ function ContactForm() {
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
               >
-                <option value="Select Topic">Select Topic</option>
-                <option value="Buyer">Buyer</option>
-                <option value="Tenant">Tenant</option>
-                <option value="Owner">Owner</option>
-                <option value="User">User</option>
-                <option value="Admin">Admin</option>
-                <option value="Content Creator">Content Creator</option>
+                <option value="Select Value">Select Value</option>
+                <option value="Schedule a Visit">Schedule a Visit</option>
+                <option value="Develop Website">Develop Website</option>
+                <option value="Develop App">Develop App</option>
               </select>
               {error.topic && <p className='error'>{error.topic}</p>}
             </div>
