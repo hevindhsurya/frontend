@@ -116,7 +116,8 @@ function ContactForm() {
       phone: trimmedPhone,
       email: trimmedEmail,
       topic: topic,
-      message: trimmedMessage
+      message: trimmedMessage,
+      recaptchaToken: captchaValue
     };
     try {
       await axios.post('https://backend-production-6241.up.railway.app/api/auth/contact', queryData);
