@@ -119,7 +119,7 @@ function ContactForm() {
       message: trimmedMessage
     };
     try {
-      await axios.post('http://localhost:5000/api/auth/register', queryData);
+      await axios.post('https://backend-production-6241.up.railway.app/api/auth/contact', queryData);
       alert('Query submitted successfully');
       // Clear form on success
       setName('');
