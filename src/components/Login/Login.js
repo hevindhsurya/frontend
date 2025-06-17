@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import '../../formstyle/formstyle.css'; // use your regular CSS file
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const navigate = useNavigate();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [error, setErrors] = useState({});
@@ -73,6 +75,7 @@ function Login() {
       setIdentifier('');
       setPassword('');
       setErrors({});
+      navigate("/");
     } catch (error) {
       if (
         error.response &&
