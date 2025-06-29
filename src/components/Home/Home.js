@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import ContactForm from "../Contact/ContactForm";
 
 function Home() {
@@ -26,7 +25,7 @@ function Home() {
       </div>
 
       <div className="form-container">
-      <div>
+      <div style={{textAlign:'center'}}>
         <h2>GET IN TOUCH</h2>
         <p className="subtitle">Have some questions?</p>
         <p className="subtitle">Feel free to ask them anytime</p>

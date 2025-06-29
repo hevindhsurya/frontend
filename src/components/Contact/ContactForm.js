@@ -3,6 +3,7 @@ import "../../formstyle/formstyle.css";
 import { useState } from "react";
 import ReCAPTCHA from 'react-google-recaptcha';
 
+const api = process.env.REACT_APP_API_URL;
 const SITE_KEY = '6LeEgWErAAAAADwWwELGP10pL4d_HRYmkK1TCAAG';
 
 function ContactForm() {
@@ -120,7 +121,8 @@ function ContactForm() {
       recaptchaToken: captchaValue
     };
     try {
-      await axios.post('https://backend-production-6241.up.railway.app/api/auth/contact', queryData);
+      console.log("API endpoint:", api);
+      await axios.post(`${api}/api/auth/contact`, queryData);
       alert('Query submitted successfully');
       // Clear form on success
       setName('');
@@ -144,9 +146,7 @@ function ContactForm() {
             <h3 style={{ fontWeight:'600', fontSize:'22px'}}>Contact Us!</h3>
             {/* Name */}
             <div>
-                <label>
                 <i className='far fa-user myIcon'></i>
-                </label>
                 <input
                     className='input'
                     type="text"

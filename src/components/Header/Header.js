@@ -1,11 +1,15 @@
 import '../../formstyle/formstyle.css';
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { useAuth } from '../../UserContext';
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const menuRef = useRef(null);
+  const navigate = useNavigate();
 
+  const { user } = useAuth();
   const toggleMenu = () => setIsOpen(!isOpen);
 
   useEffect(() => {
@@ -15,8 +19,24 @@ function Header() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen]);
+
   return (
-    <header className='header'>
+    <header className='header' ref={menuRef}>
       <div className='logo'>My Site</div>
 
       <div className={`hamburger ${isOpen ? 'active' : ''}`} onClick={toggleMenu}>
@@ -32,7 +52,18 @@ function Header() {
         <Link to="/contact">{isMobile && isOpen && <i className='far fa-envelope'></i>} Contact</Link>
         <Link to="/about">{isMobile && isOpen && <i className='fas fa-info'></i>} About</Link>
         <Link to="/propertyListing">{isMobile && isOpen && <i className='far fa-building'></i>} Property Listing</Link>
-        <Link to="/login" id="login/signup">{isMobile && isOpen && <i className='far fa-user'></i>} Login / Signup</Link>
+        <Link to="/addBlog">{isMobile && isOpen && <i className='far fa-plus'></i>} Add Blog</Link>
+        {user ? (
+          <Link
+            to="/logout"
+          >
+            {isMobile && isOpen && <i className="far fa-user"></i>} Logout
+          </Link>
+        ) : (
+          <Link to="/login" id="login/signup">
+            {isMobile && isOpen && <i className="far fa-user"></i>} Login / Signup
+          </Link>
+        )}
       </nav>
     </header>
   );

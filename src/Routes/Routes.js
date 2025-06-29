@@ -8,22 +8,32 @@ import About from '../components/About/About.js';
 import Contact from '../components/Contact/Contact.js';
 import Blog from '../components/Blog/Blog.js';
 import ForgetPassword from '../components/ForgotPassword/ForgotPassword.js';
-import Help from '../components/Help/Help.js'; 
-
+import Help from '../components/Help/Help.js';
+import AddBlog from '../components/Blog/AddBlog.js';
+import BlogContent from '../components/Blog/BlogContent';
+import Logout from '../components/Login/Logout.js';
+import ProtectedRoute from "./ProtectedRoute";
 
 export default function AppRoutes() {
   return (
     <Routes>
+      {/* ✅ Public Routes */}
       <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/forgetPassword" element={<ForgetPassword />} />
       <Route path="/services" element={<Services />} />
       <Route path="/about" element={<About />} />
       <Route path="/blog" element={<Blog />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/propertyListing" element={<PropertyListing />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/blogs" element={<Blog />} />
       <Route path="/help" element={<Help />} />
-      <Route path="/forgetPassword" element={<ForgetPassword />} />
+
+      {/* ✅ Protected Routes */}
+      <Route path="/logout" element={<ProtectedRoute><Logout /></ProtectedRoute>} />
+      <Route path="/addblog" element={<ProtectedRoute><AddBlog /></ProtectedRoute>} />
+      <Route path="/blog/:id" element={<ProtectedRoute><BlogContent /></ProtectedRoute>} />
+      <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
+      <Route path="/propertyListing" element={<ProtectedRoute><PropertyListing /></ProtectedRoute>} />
     </Routes>
   );
 }

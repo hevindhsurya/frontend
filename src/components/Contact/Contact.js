@@ -1,4 +1,3 @@
-import react from "react";
 import "../../formstyle/formstyle.css";
 import ContactForm from "./ContactForm";
 
@@ -11,8 +10,8 @@ function Contact() {
             <p>We strive to provide you with the best experience and the best platform to find your choice.</p>
             <p>Post us any queries and we'll get back to you.</p>
 
-          <div className="contact-info">
-            <div className="info-block">
+        <div className="contact-info">
+          <div className="info-block">
               <i className="far fa-comments icon"></i>
             <div>
               <h3>Chat with us !!</h3>

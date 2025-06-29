@@ -3,13 +3,15 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+const api = process.env.REACT_APP_API_URL;
+
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [token, setToken] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await axios.post('http://localhost:5000/api/auth/forgot-password', { email });
+    const res = await axios.post(`${api}/api/auth/forgot-password`, { email });
     setToken(res.data.token);
   };
 

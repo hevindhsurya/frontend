@@ -3,6 +3,9 @@ import { useState } from 'react';
 import axios from 'axios';
 import '../../formstyle/formstyle.css'; // use your regular CSS file
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../UserContext';
+
+const api = process.env.REACT_APP_API_URL;
 
 function Login() {
   const navigate = useNavigate();
@@ -10,6 +13,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [error, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const { setUser } = useAuth();
 
   const nameRegex = /^[a-zA-Z0-9_]{3,16}$/;
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -39,54 +43,55 @@ function Login() {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const trimmedId = identifier.trim();
-    const trimmedPassword = password.trim();
-    let formErrors = {};
+  const trimmedId = identifier.trim();
+  const trimmedPassword = password.trim();
+  let formErrors = {};
 
-    if (!trimmedId) {
-      formErrors.identifier = '*Required';
-    } else if (!emailRegex.test(trimmedId) && !nameRegex.test(trimmedId)) {
-      formErrors.identifier = '*Invalid username or email address';
-    }
+  if (!trimmedId) {
+    formErrors.identifier = '*Required';
+  } else if (!emailRegex.test(trimmedId) && !nameRegex.test(trimmedId)) {
+    formErrors.identifier = '*Invalid username or email address';
+  }
 
-    if (!trimmedPassword) {
-      formErrors.password = '*Required';
-    } else if (!passwordRegex.test(trimmedPassword)) {
-      formErrors.password =
-        '*Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.';
-    }
+  if (!trimmedPassword) {
+    formErrors.password = '*Required';
+  } else if (!passwordRegex.test(trimmedPassword)) {
+    formErrors.password =
+      '*Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.';
+  }
 
-    setErrors(formErrors);
-    if (Object.keys(formErrors).length > 0) return;
+  setErrors(formErrors);
+  if (Object.keys(formErrors).length > 0) return;
 
-    const loginData = {
-      identifier: trimmedId,
-      password: trimmedPassword,
-    };
-
-    try {
-      await axios.post('https://backend-production-6241.up.railway.app/api/auth/login', loginData, {
-        withCredentials: true,
-      });
-      alert('Successfully logged in');
-      setIdentifier('');
-      setPassword('');
-      setErrors({});
-      navigate("/");
-    } catch (error) {
-      if (
-        error.response &&
-        (error.response.status === 401 || error.response.status === 400)
-      ) {
-        alert('Wrong credentials');
-      } else {
-        alert('An error occurred. Please try again later.');
-      }
-    }
+  const loginData = {
+    identifier: trimmedId,
+    password: trimmedPassword,
   };
+
+  try {
+    const res = await axios.post(`${api}/api/auth/login`, loginData, {
+      withCredentials: true,
+    });
+
+    setUser(res.data.user); 
+    setIdentifier('');
+    setPassword('');
+    setErrors({});
+    navigate('/');
+  } catch (error) {
+    if (
+      error.response &&
+      (error.response.status === 401 || error.response.status === 400)
+    ) {
+      alert('Wrong credentials');
+    } else {
+      alert('An error occurred. Please try again later.');
+    }
+  }
+};
 
   return (
     <div>

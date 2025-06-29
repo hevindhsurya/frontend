@@ -4,6 +4,7 @@ import axios from 'axios';
 import ReCAPTCHA from 'react-google-recaptcha';
 import '../../formstyle/formstyle.css';
 
+const api = process.env.REACT_APP_API_URL;
 const SITE_KEY = '6LeEgWErAAAAADwWwELGP10pL4d_HRYmkK1TCAAG';
 
 function Register() {
@@ -135,12 +136,12 @@ function Register() {
       email: trimmedEmail,
       password: trimmedPassword,
       role,
-      recaptchaToken: captchaValue
+      recaptchaToken: true
 };
 
 
     try {
-      await axios.post('https://backend-production-6241.up.railway.app/api/auth/register', registerData);
+      await axios.post(`${api}/api/auth/register`, registerData);
       alert('Successfully registered');
       // Clear form on success
       setName('');
@@ -162,7 +163,7 @@ function Register() {
     <div>
       <div className='top'>
         <form className='form' onSubmit={handleSubmit}>
-          <header className='h'>Register</header>
+          <header className='h'>Create an account</header>
 
           {/* Name */}
           <div>
